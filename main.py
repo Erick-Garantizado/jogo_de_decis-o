@@ -285,9 +285,9 @@ matar_coelho = int(input('[1]Matar o coelho para se alimentar\n'
 sleep(1)
 print(linha())
 if matar_coelho == 1:
-    print(f'Quando {prota} estava prestes a matar o coelho (que a carinne tanto não queria\n'
-          f'que morresse), uma camponesa que estava caçando aparece. Vendo ela que\n'
-          f'{prota} está com fome {sexo[0]} convida para almoçar em sua casa!')
+    print(f'Quando {prota} estava prestes a matar o coelho uma camponesa que estava caçando\n'
+          f'bem perto aparece. Vendo ela que {prota} está com fome {sexo[0]} convida para almoçar\n'
+          f'em sua casa!\n')
     print(linha())
     sleep(2)
     seguir()
