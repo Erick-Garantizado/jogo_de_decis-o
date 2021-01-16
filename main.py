@@ -1,18 +1,19 @@
 from random import choice
 from time import sleep
 from sys import exit
-from projetos.jogo_de_decisao import uteis
+from projetos.jogo_de_decisao import uteis, test
 
 
 
+prota = test.Personagem
 
 
-prota_atrb = {'vida': 10,
+'''prota_atrb = {'vida': 10,
              'atk': 4,
              'defe': 15,
              'comida': 2,
              'XP': 0,
-             'lvl': 1}
+             'lvl': 1}'''
 
 guerreira = {'vida':10,
              'atk': 4,
@@ -24,24 +25,25 @@ urso = {'vida': 15,
 
 uteis.cabecalho('JOGO DA DECISAO')
 
-s = str(input('Qual será o sexo do personagem? M(masculino) F(feminino):\n')).strip().lower()[0]
+prota.sexo = str(input('Qual será o sexo do personagem? M(masculino) F(feminino):\n')).strip().lower()[0]
+s = prota.sexo
 
 if s == 'm':
     sexo = ['o', 'ele', 'um']
 else:
     sexo = ['a', 'ela', 'uma']
 
-prota = str(input('Qual será o nome do seu Personagem?\n')).strip().capitalize()
+prota.nome = str(input('Qual será o nome do seu Personagem?\n')).strip().capitalize()
 
 print('Enredo:')
-print(f'O reino LEMSA foi atacado, o rei RUJE foi assassinado e você, \n{prota}, filh{sexo[0]} do rei, busca vingança.')
+print(f'O reino LEMSA foi atacado, o rei RUJE foi assassinado e você, \n{prota.nome}, filh{sexo[0]} do rei, busca vingança.')
 print(uteis.linha())
-print(f'{prota} lotad{sexo[0]} de fúria em seu coração, sem consultar ninguém,\n'
+print(f'{prota.nome} lotad{sexo[0]} de fúria em seu coração, sem consultar ninguém,\n'
       f'dois dias depois da morte de seu pai, sai bem cedo\n'
       f'para a sua jornada que é ir para o reino vizinho matar o rei Asa.\n'
-      f'Pensando {prota} que Asa era o autor do ataque.')
+      f'Pensando {prota.nome} que Asa era o autor do ataque.')
 print(uteis.linha())
-print(f'Equipad{sexo[0]} com sua espada longa, roupa de batalha e 2 pedaços de carne,\n{prota} segue com seu objetivo.')
+print(f'Equipad{sexo[0]} com sua espada longa, roupa de batalha e 2 pedaços de carne,\n{prota.nome} segue com seu objetivo.')
 uteis.pts(3)
 print(f'\nDurante a caminhada ele encontra uma guerreira nomade que {sexo[0]} ameassa.')
 print(uteis.linha())
@@ -197,7 +199,7 @@ else:
     uteis.seguir()
 if derrota == False:
     print(uteis.linha2())
-    print(f'{prota} segue caminho, porém, já esta chegando a tarde e sente fome,\n'
+    print(f'{prota.nome} segue caminho, porém, já esta chegando a tarde e sente fome,\n'
           f'{sexo[1]} encontra uma lebre.')
     print(uteis.linha2())
     print('O QUE VOCÊ FAZ?')
@@ -208,8 +210,8 @@ matar_coelho = int(input('[1]Matar o coelho para se alimentar\n'
 sleep(1)
 print(uteis.linha())
 if matar_coelho == 1:
-    print(f'Quando {prota} estava prestes a matar o coelho uma camponesa que estava caçando\n'
-          f'bem perto aparece. Vendo ela que {prota} está com fome {sexo[0]} convida para almoçar\n'
+    print(f'Quando {prota.nome} estava prestes a matar o coelho uma camponesa que estava caçando\n'
+          f'bem perto aparece. Vendo ela que {prota.nome} está com fome {sexo[0]} convida para almoçar\n'
           f'em sua casa!\n')
     print(uteis.linha())
     sleep(2)
@@ -217,7 +219,7 @@ if matar_coelho == 1:
     aleatoria = ('boa', 'ruim')
     situação = choice(aleatoria)
     if situação == 'boa':
-        print(f'Após {prota} se alimentar {sexo[1]} agradece e segue com seu objetivo.\n'
+        print(f'Após {prota.nome} se alimentar {sexo[1]} agradece e segue com seu objetivo.\n'
               f'Ainda com sede vingança!')
     else:
         uteis.pts(3)
@@ -238,18 +240,18 @@ if matar_coelho == 1:
         escolha2 = int(input('[1] Sim\n'
                          '[2] Não\n'))
         if escolha2 == 1:
-            print(f'{prota} entende a dor da camponesa e ajuda a procurar os culpados.\n'
+            print(f'{prota.nome} entende a dor da camponesa e ajuda a procurar os culpados.\n'
                   f'Porém...o culpado era nada mais nada menos do que o conselheiro do\n'
                   f'falecido rei Ruje chamado Acabe.')
             print(uteis.linha())
             uteis.seguir()
             print(uteis.linha())
             print('Acabe:\n'
-                  f'    -Olá {prota}, não esperava lhe achar tão cedo!')
+                  f'    -Olá {prota.nome}, não esperava lhe achar tão cedo!')
             print(uteis.linha())
             uteis.seguir()
             print(uteis.linha())
-            print(f'{prota}:\n'
+            print(f'{prota.nome}:\n'
                   f'    -Acabe?! Foi você quem desgraçou a vida dessa pobre camponesa?\n'
                   f'    Mas, por quê?')
             print(uteis.linha())
@@ -268,7 +270,7 @@ if matar_coelho == 1:
             input('Press enter to finish')
             exit()
         else:
-            print(f'{prota} diz à pobre camponesa que não pode, pois saiu de casa em busca\n'
+            print(f'{prota.nome} diz à pobre camponesa que não pode, pois saiu de casa em busca\n'
                   f'de vingança assim como ela fará também!')
             uteis.seguir()
             print(f'Camponesa:\n'
@@ -278,9 +280,9 @@ if matar_coelho == 1:
 uteis.pts(3)
 print()
 print(uteis.linha())
-print(f'Ao seguir seu caminho {prota} cai em uma armadilha.')
+print(f'Ao seguir seu caminho {prota.nome} cai em uma armadilha.')
 uteis.seguir()
-print(f'De repente 2 mercenarios aparecem e observando {prota} percebem que é {sexo[2]}\n'
+print(f'De repente 2 mercenarios aparecem e observando {prota.nome} percebem que é {sexo[2]}\n'
       f'jovem formos{sexo[0]} e de saúde boa, e então decidem vendê-l{sexo[0]} como escrav{sexo[0]}\n'
       f'para ganhar um dinheiro facil.')
 uteis.seguir()
@@ -314,7 +316,7 @@ if reação == 1:
             print('CONSEGUIU!!!')
             break
     #fazer apartir dessa linha
-    print(f'{prota} corre para mais dentro ainda da floresta para fugir do alcance\n'
+    print(f'{prota.nome} corre para mais dentro ainda da floresta para fugir do alcance\n'
           f' dos mercenarios.')
     uteis.seguir()
     print(f'Ao conseguir despista-los de repente um urso selvagem de 2 metros e meio aparece\n'
