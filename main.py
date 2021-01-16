@@ -528,9 +528,10 @@ if reação == 1:
         print('Você morreu! Sua sede de vingança foi responsável pela sua destruição.')
         input('Press enter to finish')
         exit()
-    print('Depois de obter exito na luta contra o urso e ja anoitecendo, voce avista\n'
+    print('Depois de obter exito na luta contra o urso e ja anoitecendo, você avista\n'
           'o que poderia ser um reino entre algumas brechas da floresta.')
     continua()
+    seguir()
 else:
     print('Durante a caminhada os mercenarios perguntam oque você fazia na floresta.\n'
           'E você responde. Entao um deles diz que você nunca conseguiria entrar la\n'
