@@ -14,14 +14,7 @@ class Personagem:
         self.nivel = 1
 
 
-    def atacar(self):
-        """Faz com que o personagem ataque."""
-        print('Rolando d20')
-        dado20 = uteis.d20()
-        sleep(1)
-        tentativa = dado20 + self.forca
-        uteis.pts(3)
-        return tentativa, dado20
+
 
 
     def comer(self):
@@ -33,5 +26,3 @@ class Personagem:
     def increment_xp(self):
         """"""
 
-    def levar_dano(self):
-        """"""
