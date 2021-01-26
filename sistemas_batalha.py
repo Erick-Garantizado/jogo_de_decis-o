@@ -25,9 +25,10 @@ def batalha_txt():
 
 
 def atacar(atacante):
-    """Faz com que o personagem ataque."""
+    """Faz com que o personagem ataque com chance de critico."""
+    critical = False
     print('Rolando d20')
-    dado20 = 20 #uteis.d20()
+    dado20 = uteis.d20()
     sleep(1)
     tentativa = dado20 + atacante.forca
     uteis.pts(3)
@@ -62,6 +63,6 @@ def levar_dano(tentativa, quem_levara_dano, critical):
             quem_levara_dano.vida -= dado10
         print(uteis.linha())
     else:
-        erros = 'Adversario desviou', 'Você errou!'
+        erros = 'Desviou', 'Errou!'
         print(choice(erros))
         print(uteis.linha())

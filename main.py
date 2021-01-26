@@ -57,6 +57,7 @@ decisao1 = int(input('[1]Atacar\n'
 sleep(1)
 print(uteis.linha())
 derrota = False
+
 if decisao1 == 1:
     sb.batalha_txt()
     guerreira = test.Personagem()
@@ -84,31 +85,10 @@ if decisao1 == 1:
             elif prota_atrb['comida'] < 0:
                 print('Você não tem mais comida!')
         else:
-            tentativa, dado20 = prota.atacar()
-
-            #critico ou nao
-            critical = False
-            sb.critico(dado20, tentativa)
+            tentativa, dado20, critical = sb.atacar(prota)
 
             #acertou ou nao
-            if tentativa >= guerreira.defe:
-                print(uteis.linha())
-                print('Você acertou! Rolando d10')
-                uteis.pts(2)
-                dado10 = uteis.d10()
-                print(f'{dado10} de dano')
-                guerreira.vida -= dado10
-                if critical:
-                    print('Rolando d10 novamente')
-                    uteis.pts(2)
-                    dado10 = uteis.d10()
-                    print(f'{dado10} de dano')
-                    guerreira.vida -= dado10
-                print(uteis.linha())
-            else:
-                erros = 'Adversario desviou', 'Você errou!'
-                print(choice(erros))
-                print(uteis.linha())
+            sb.levar_dano(tentativa, guerreira, critical)
 
             if guerreira.vida <= 0:
                 guerreira.vida = 0
@@ -123,30 +103,11 @@ if decisao1 == 1:
         sleep(0.5)
         print('Vez do adversário')
         sleep(1)
-        tentativa, dado20 = guerreira.atacar()
 
-        #critico ou nao
-        critical = False
-        sb.critico(dado20, tentativa)
+        tentativa, dado20, critical = sb.atacar(guerreira)
 
         #acertou ou nao
-        if tentativa >= prota.defe:
-            print('Adversario acertou! Rolando d10')
-            uteis.pts(2)
-            dado10 = uteis.d10()
-            print(f'{dado10} de dano')
-            prota.vida -= dado10
-            if critical:
-                print('rolando d10 novamente')
-                uteis.pts(2)
-                dado10 = uteis.d10()
-                print(f'{dado10} de dano')
-                prota.vida -= dado10
-            print(uteis.linha())
-        else:
-            erros = 'Você desviou', 'Adversario errou!'
-            print(choice(erros))
-            print(uteis.linha())
+        sb.levar_dano(tentativa, prota, critical)
 
         if prota.vida <= 0:
             prota.vida = 0
