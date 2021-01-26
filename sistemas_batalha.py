@@ -6,7 +6,7 @@ def batalha_txt():
     """
     Escreve 'batalha' como se estivesse soletrando
     """
-
+    
     print(uteis.linha2())
     print('{:>30}'.format('B'), end='')
     sleep(0.5)
@@ -29,7 +29,7 @@ def atacar(atacante):
     """
     Faz com que o personagem ataque com chance de critico.
     """
-
+    
     critical = False
     print('Rolando d20')
     dado20 = uteis.d20()
