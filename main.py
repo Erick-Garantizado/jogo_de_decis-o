@@ -2,10 +2,7 @@ from random import choice
 from time import sleep
 from sys import exit
 from projetos.jogo_de_decisao import uteis, test
-
-
-
-prota = test.Personagem
+from projetos.jogo_de_decisao import sistemas_batalha as sb
 
 
 '''prota_atrb = {'vida': 10,
@@ -13,11 +10,11 @@ prota = test.Personagem
              'defe': 15,
              'comida': 2,
              'XP': 0,
-             'lvl': 1}'''
+             'lvl': 1}
 
 guerreira = {'vida':10,
              'atk': 4,
-             'defe':15}
+             'defe':15}'''
 
 urso = {'vida': 15,
         'atk': 5,
@@ -25,15 +22,18 @@ urso = {'vida': 15,
 
 uteis.cabecalho('JOGO DA DECISAO')
 
-prota.sexo = str(input('Qual será o sexo do personagem? M(masculino) F(feminino):\n')).strip().lower()[0]
-s = prota.sexo
+sexo = str(input('Qual será o sexo do personagem? M(masculino) F(feminino):\n')).strip().lower()[0]
+s = sexo
 
 if s == 'm':
     sexo = ['o', 'ele', 'um']
 else:
     sexo = ['a', 'ela', 'uma']
 
-prota.nome = str(input('Qual será o nome do seu Personagem?\n')).strip().capitalize()
+prota_nome = str(input('Qual será o nome do seu Personagem?\n')).strip().capitalize()
+
+prota = test.Personagem()
+prota.nome = prota_nome
 
 print('Enredo:')
 print(f'O reino LEMSA foi atacado, o rei RUJE foi assassinado e você, \n{prota.nome}, filh{sexo[0]} do rei, busca vingança.')
@@ -58,8 +58,10 @@ sleep(1)
 print(uteis.linha())
 derrota = False
 if decisao1 == 1:
-    uteis.batalha()
-    print(f'                Vida:{prota_atrb["vida"]:<20}  Guerreira:{guerreira["vida"]}')
+    sb.batalha_txt()
+    guerreira = test.Personagem()
+    guerreira.nome = 'Ayllah'
+    print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
     uteis.linha3(tam=75)
 
     while True:
@@ -82,102 +84,80 @@ if decisao1 == 1:
             elif prota_atrb['comida'] < 0:
                 print('Você não tem mais comida!')
         else:
-            print('Rolando d20')
-            dado20 = uteis.d20()
-            sleep(1)
-            tentativa = dado20 + prota_atrb['atk']
-            uteis.pts(3)
+            tentativa, dado20 = prota.atacar()
 
             #critico ou nao
             critical = False
-            if dado20 == 20:
-                critical = True
-                print(f'd20: {dado20} -- CRITICALL !!!')
-            else:
-                print(f'd20: {dado20}')
-            sleep(2)
-            print(f'Tentativa: {tentativa}')
-            sleep(3)
+            sb.critico(dado20, tentativa)
 
             #acertou ou nao
-            if tentativa >= guerreira['defe']:
+            if tentativa >= guerreira.defe:
                 print(uteis.linha())
                 print('Você acertou! Rolando d10')
                 uteis.pts(2)
                 dado10 = uteis.d10()
                 print(f'{dado10} de dano')
-                guerreira['vida'] -= dado10
+                guerreira.vida -= dado10
                 if critical:
                     print('Rolando d10 novamente')
                     uteis.pts(2)
                     dado10 = uteis.d10()
                     print(f'{dado10} de dano')
-                    guerreira['vida'] -= dado10
+                    guerreira.vida -= dado10
                 print(uteis.linha())
             else:
                 erros = 'Adversario desviou', 'Você errou!'
                 print(choice(erros))
                 print(uteis.linha())
 
-            if guerreira['vida'] <= 0:
-                guerreira['vida'] = 0
-                print(f'                Vida:{prota_atrb["vida"]:<20}  Guerreira:{guerreira["vida"]}')
+            if guerreira.vida <= 0:
+                guerreira.vida = 0
+                print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
                 uteis.linha3(tam=75)
                 break
         sleep(2)
-        print(f'                Vida:{prota_atrb["vida"]:<20}  Guerreira:{guerreira["vida"]}')
+        print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
         uteis.linha3(tam=75)
 
 #enemy time
         sleep(0.5)
         print('Vez do adversário')
         sleep(1)
-        print('Rolando d20')
-        dado20 = uteis.d20()
-        sleep(1)
-        tentativa = dado20 + guerreira['atk']
-        uteis.pts(3)
+        tentativa, dado20 = guerreira.atacar()
 
         #critico ou nao
         critical = False
-        if dado20 == 20:
-            critical = True
-            print(f'd20: {dado20} -- CRITICALL !!!')
-        else:
-            print(f'd20: {dado20}')
-        sleep(2)
-        print(f'Tentativa: {tentativa}')
-        sleep(3)
+        sb.critico(dado20, tentativa)
 
         #acertou ou nao
-        if tentativa >= prota_atrb['defe']:
+        if tentativa >= prota.defe:
             print('Adversario acertou! Rolando d10')
             uteis.pts(2)
             dado10 = uteis.d10()
             print(f'{dado10} de dano')
-            prota_atrb["vida"] -= dado10
+            prota.vida -= dado10
             if critical:
                 print('rolando d10 novamente')
                 uteis.pts(2)
                 dado10 = uteis.d10()
                 print(f'{dado10} de dano')
-                prota_atrb["vida"] -= dado10
+                prota.vida -= dado10
             print(uteis.linha())
         else:
             erros = 'Você desviou', 'Adversario errou!'
             print(choice(erros))
             print(uteis.linha())
 
-        if prota_atrb['vida'] <= 0:
-            prota_atrb['vida'] = 0
-            print(f'                Vida:{prota_atrb["vida"]:<20}  Guerreira:{guerreira["vida"]}')
+        if prota.vida <= 0:
+            prota.vida = 0
+            print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
             uteis.linha3(tam=75)
             break
         sleep(2)
-        print(f'                Vida:{prota_atrb["vida"]:<20}  Guerreira:{guerreira["vida"]}')
+        print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
         uteis.linha3(tam=75)
 
-    if guerreira['vida'] <= 0:
+    if guerreira.vida <= 0:
         uteis.cabecalho('VITORIA')
         input('Press enter to finish')
     else:
