@@ -5,17 +5,6 @@ from projetos.jogo_de_decisao import uteis, test
 from projetos.jogo_de_decisao import sistemas_batalha as sb
 
 
-'''prota_atrb = {'vida': 10,
-             'atk': 4,
-             'defe': 15,
-             'comida': 2,
-             'XP': 0,
-             'lvl': 1}
-
-guerreira = {'vida':10,
-             'atk': 4,
-             'defe':15}'''
-
 urso = {'vida': 15,
         'atk': 5,
         'defe': 13}
@@ -65,68 +54,8 @@ if decisao1 == 1:
     print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
     uteis.linha3(tam=75)
 
-    while True:
-#player time
-        sleep(0.5)
-        print('Sua vez')
-        sleep(1)
-        ação = int(input('[1] Espada\n[2] Comer\n'))
-        if ação == 2:   #logica para prota restaurar vida
-            if prota_atrb['vida'] >= 10:
-                prota_atrb['vida'] = 10
-                print('Sua vida esta cheia, nao precisa comer!')
-            elif prota_atrb['comida'] > 0 and -1 < prota_atrb['vida'] < 10:
-                prota_atrb['comida'] -= 1
-                prota_atrb['vida'] += 3
-                print(f'Você ganhou +3 de vida')
-                print(f'Qtd. de comida: {prota_atrb["comida"]}')
-                if prota_atrb['vida'] > 10:
-                    prota_atrb['vida'] = 10
-            elif prota_atrb['comida'] < 0:
-                print('Você não tem mais comida!')
-        else:
-            tentativa, dado20, critical = sb.atacar(prota)
+    sb.batalha(prota, guerreira)
 
-            #acertou ou nao
-            sb.levar_dano(tentativa, guerreira, critical)
-
-            if guerreira.vida <= 0:
-                guerreira.vida = 0
-                print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
-                uteis.linha3(tam=75)
-                break
-        sleep(2)
-        print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
-        uteis.linha3(tam=75)
-
-#enemy time
-        sleep(0.5)
-        print('Vez do adversário')
-        sleep(1)
-
-        tentativa, dado20, critical = sb.atacar(guerreira)
-
-        #acertou ou nao
-        sb.levar_dano(tentativa, prota, critical)
-
-        if prota.vida <= 0:
-            prota.vida = 0
-            print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
-            uteis.linha3(tam=75)
-            break
-        sleep(2)
-        print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
-        uteis.linha3(tam=75)
-
-    if guerreira.vida <= 0:
-        uteis.cabecalho('VITORIA')
-        input('Press enter to finish')
-    else:
-        uteis.cabecalho('DERROTA')
-        derrota = True
-        print('Você morreu! Sua sede de vingança foi responsável pela sua destruição.')
-        input('Press enter to finish')
-        exit()
 else:
     print('Você tenta convencê-la de que não faz sentido vocês lutarem, já que o seu\nobjetivo não é lutar contra ela.')
     uteis.linha3()
