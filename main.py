@@ -25,7 +25,7 @@ prota = test.Personagem()
 prota.nome = prota_nome
 
 print('Enredo:')
-print(f'O reino LEMSA foi atacado, o rei RUJE foi assassinado e você, \n{prota.nome}, filh{sexo[0]} do rei, busca vingança.')
+print(f'O reino SALEM foi atacado, o rei JÉRU foi assassinado e você, \n{prota.nome}, filh{sexo[0]} do rei, busca vingança.')
 print(uteis.linha())
 print(f'{prota.nome} lotad{sexo[0]} de fúria em seu coração, sem consultar ninguém,\n'
       f'dois dias depois da morte de seu pai, sai bem cedo\n'
@@ -162,6 +162,7 @@ sleep(0.5)
 reação = int(input('[1] Sim\n'
                  '[2] Não\n'))
 if reação == 1:
+    print('Você tem apenas 3 chances!')
     for c in range(0, 3):
         if c > 0:
             sleep(1)
@@ -182,10 +183,12 @@ if reação == 1:
                 uteis.cabecalho(f'Pare garot{sexo[0]}! Você está me irritando!')
             else:
                 uteis.cabecalho(f'CHEGA!!! Ess{sexo[0]} garot{sexo[0]} não vale tanto!!!')
+                print('Você morreu! Sua sede de vingança foi responsável pela sua destruição.')
+                input('Press enter to finish')
+                exit()
         else:
             print('CONSEGUIU!!!')
             break
-    #fazer apartir dessa linha
     print(f'{prota.nome} corre para mais dentro ainda da floresta para fugir do alcance\n'
           f' dos mercenarios.')
     uteis.seguir()
@@ -193,136 +196,13 @@ if reação == 1:
           f'babando e com fome.')
     uteis.seguir()
     print(f'Você não tem escolha, terá que lutar com o urso')
-    uteis.batalha()
-    if decisao1 == 1:
-        prota_atrb['vida'] = 13
-    print(f'                Vida:{prota_atrb["vida"]:<20}  Urso:{urso["vida"]}')
+    sb.batalha_txt()
+    urso = test.Personagem()
+    print(f'                Vida:{prota.vida:<20}  Urso:{urso.vida}')
     uteis.linha3(tam=75)
 
-    while True:
-        # player time
-        sleep(0.5)
-        print('Sua vez')
-        sleep(1)
-        ação = int(input('[1] Espada\n[2] Comer\n'))
-        if ação == 2:  # logica para prota restaurar vida
-            if prota_atrb['vida'] >= 13:
-                prota_atrb['vida'] = 13
-                print('Sua vida esta cheia, nao precisa comer!')
-            elif prota_atrb['comida'] > 0 and -1 < prota_atrb['vida'] < 10:
-                prota_atrb['comida'] -= 1
-                prota_atrb['vida'] += 3
-                print(f'Você ganhou +3 de vida')
-                print(f'Qtd. de comida: {prota_atrb["comida"]}')
-                if prota_atrb['vida'] > 10:
-                    prota_atrb['vida'] = 10
-            elif prota_atrb['comida'] < 0:
-                print('Você não tem mais comida!')
-        else:
-            print('Rolando d20')
-            dado20 = uteis.d20()
-            sleep(1)
-            tentativa = dado20 + prota_atrb['atk']
-            uteis.pts(3)
+    sb.batalha(prota, urso)
 
-            # critico ou nao
-            critical = False
-            if dado20 == 20:
-                critical = True
-                print(f'd20: {dado20} -- CRITICALL !!!')
-            else:
-                print(f'd20: {dado20}')
-            sleep(2)
-            print(f'Tentativa: {tentativa}')
-            sleep(3)
-
-            # acertou ou nao
-            if tentativa >= urso['defe']:
-                print(uteis.linha())
-                print('Você acertou! Rolando d10')
-                uteis.pts(2)
-                dado10 = uteis.d10()
-                print(f'{dado10} de dano')
-                urso['vida'] -= dado10
-                if critical:
-                    print('Rolando d10 novamente')
-                    uteis.pts(2)
-                    dado10 = uteis.d10()
-                    print(f'{dado10} de dano')
-                    urso['vida'] -= dado10
-                print(uteis.linha())
-            else:
-                erros = 'O urso desviou', 'Você errou!'
-                print(choice(erros))
-                print(uteis.linha())
-
-            if urso['vida'] <= 0:
-                urso['vida'] = 0
-                print(f'                Vida:{prota_atrb["vida"]:<20}  Urso:{urso["vida"]}')
-                uteis.linha3(tam=75)
-                break
-        sleep(2)
-        print(f'                Vida:{prota_atrb["vida"]:<20}  Urso:{urso["vida"]}')
-        uteis.linha3(tam=75)
-
-        # enemy time
-        sleep(0.5)
-        print('Vez do urso')
-        sleep(1)
-        print('Rolando d20')
-        dado20 = uteis.d20()
-        sleep(1)
-        tentativa = dado20 + urso['atk']
-        uteis.pts(3)
-
-        # critico ou nao
-        critical = False
-        if dado20 == 20:
-            critical = True
-            print(f'd20: {dado20} -- CRITICALL !!!')
-        else:
-            print(f'd20: {dado20}')
-        sleep(2)
-        print(f'Tentativa: {tentativa}')
-        sleep(3)
-
-        # acertou ou nao
-        if tentativa >= prota_atrb['defe']:
-            print('O urso acertou! Rolando d10')
-            uteis.pts(2)
-            dado10 = uteis.d10()
-            print(f'{dado10} de dano')
-            prota_atrb["vida"] -= dado10
-            if critical:
-                print('rolando d10 novamente')
-                uteis.pts(2)
-                dado10 = uteis.d10()
-                print(f'{dado10} de dano')
-                prota_atrb["vida"] -= dado10
-            print(uteis.linha())
-        else:
-            erros = 'Você desviou', 'O urso errou!'
-            print(choice(erros))
-            print(uteis.linha())
-
-        if prota_atrb['vida'] <= 0:
-            prota_atrb['vida'] = 0
-            print(f'                Vida:{prota_atrb["vida"]:<20}  Uros:{urso["vida"]}')
-            uteis.linha3(tam=75)
-            break
-        sleep(2)
-        print(f'                Vida:{prota_atrb["vida"]:<20}  Urso:{urso["vida"]}')
-        uteis.linha3(tam=75)
-
-    if urso['vida'] <= 0:
-        uteis.cabecalho('VITORIA')
-        input('Press enter to finish')
-    else:
-        uteis.cabecalho('DERROTA')
-        derrota = True
-        print('Você morreu! Sua sede de vingança foi responsável pela sua destruição.')
-        input('Press enter to finish')
-        exit()
     print('Depois de obter exito na luta contra o urso e ja anoitecendo, você avista\n'
           'o que poderia ser um reino entre algumas brechas da floresta.')
     uteis.continua()
@@ -336,3 +216,5 @@ else:
     uteis.seguir()
     print('O que será que vai acontecer?')
     uteis.continua()
+    input('Press enter to finish')
+    exit()
