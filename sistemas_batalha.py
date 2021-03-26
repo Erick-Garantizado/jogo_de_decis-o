@@ -1,6 +1,6 @@
 from random import choice
 from time import sleep
-from projetos.jogo_de_decisao import uteis
+import uteis
 
 def batalha_txt():
     """
@@ -25,6 +25,10 @@ def batalha_txt():
     print(uteis.linha2())
 
 
+def tela_vida(prota, adversario):
+    print(f'                {prota.nome}:{prota.vida:<20}  {adversario.nome}:{adversario.vida}')
+
+
 def atacar(atacante):
     """
     Faz com que o personagem ataque com chance de critico.
@@ -47,6 +51,13 @@ def atacar(atacante):
     return tentativa, dado20, critical
 
 
+def dano(quem_levara_dano):
+    uteis.pts(2)
+    dado10 = uteis.d10()
+    print(f'{dado10} de dano')
+    quem_levara_dano.vida -= dado10
+
+
 def levar_dano(tentativa, quem_levara_dano, critical):
     """
     Lógica para dar dano ou não
@@ -54,17 +65,11 @@ def levar_dano(tentativa, quem_levara_dano, critical):
     
     if tentativa >= quem_levara_dano.defe:
         print(uteis.linha())
-        print('Você acertou! Rolando d10')
-        uteis.pts(2)
-        dado10 = uteis.d10()
-        print(f'{dado10} de dano')
-        quem_levara_dano.vida -= dado10
+        print('Acertou! Rolando d10')
+        dano(quem_levara_dano)
         if critical:
             print('Rolando d10 novamente')
-            uteis.pts(2)
-            dado10 = uteis.d10()
-            print(f'{dado10} de dano')
-            quem_levara_dano.vida -= dado10
+            dano(quem_levara_dano)
         print(uteis.linha())
     else:
         erros = 'Desviou', 'Errou!'
@@ -78,25 +83,16 @@ def batalha(prota, adversario):
     """
 
     while True:
-        # player time
+        # Vez do protagonista
         sleep(0.5)
         print('Sua vez')
         sleep(1)
         ação = int(input('[1] Espada\n[2] Comer\n'))
-        if ação == 2:  # logica para prota restaurar vida
-            if prota_atrb['vida'] >= 10:
-                prota_atrb['vida'] = 10
-                print('Sua vida esta cheia, nao precisa comer!')
-            elif prota_atrb['comida'] > 0 and -1 < prota_atrb['vida'] < 10:
-                prota_atrb['comida'] -= 1
-                prota_atrb['vida'] += 3
-                print(f'Você ganhou +3 de vida')
-                print(f'Qtd. de comida: {prota_atrb["comida"]}')
-                if prota_atrb['vida'] > 10:
-                    prota_atrb['vida'] = 10
-            elif prota_atrb['comida'] < 0:
-                print('Você não tem mais comida!')
-        else:
+                                                                            #lembrete de colocar opção para o jogador analisar quanto de comida tem antes de comer
+        if ação == 2:
+            prota.comer()
+        elif ação == 1:
+            # tentativa de atacar o adversario
             tentativa, dado20, critical = atacar(prota)
 
             # acertou ou nao
@@ -104,14 +100,14 @@ def batalha(prota, adversario):
 
             if adversario.vida <= 0:
                 adversario.vida = 0
-                print(f'                Vida:{prota.vida:<20}  Guerreira:{adversario.vida}')
+                tela_vida(prota, adversario)
                 uteis.linha3(tam=75)
                 break
         sleep(2)
-        print(f'                Vida:{prota.vida:<20}  Guerreira:{adversario.vida}')
+        tela_vida(prota, adversario)
         uteis.linha3(tam=75)
 
-        # enemy time
+        # Vez do adversário
         sleep(0.5)
         print('Vez do adversário')
         sleep(1)
@@ -123,19 +119,21 @@ def batalha(prota, adversario):
 
         if prota.vida <= 0:
             prota.vida = 0
-            print(f'                Vida:{prota.vida:<20}  Guerreira:{adversario.vida}')
+            tela_vida(prota, adversario)
             uteis.linha3(tam=75)
             break
         sleep(2)
-        print(f'                Vida:{prota.vida:<20}  Guerreira:{adversario.vida}')
+        tela_vida(prota, adversario)
         uteis.linha3(tam=75)
 
     if adversario.vida <= 0:
         uteis.cabecalho('VITORIA')
-        input('Press enter to finish')
+        prota.aumentar_xp(xp=20)
+        input('Pressione enter')
     else:
         uteis.cabecalho('DERROTA')
         derrota = True
         print('Você morreu! Sua sede de vingança foi responsável pela sua destruição.')
-        input('Press enter to finish')
+        input('Pressione enter')
         exit()
+
