@@ -1,16 +1,17 @@
+from os import system
 from random import choice
-from time import sleep
 from sys import exit
-from projetos.jogo_de_decisao import uteis, test
-from projetos.jogo_de_decisao import sistemas_batalha as sb
+from time import sleep
 
+import sistemas_batalha as sb
+import obj_personagem
+import uteis
 
-urso = {'vida': 15,
-        'atk': 5,
-        'defe': 13}
+system('cls')
 
 uteis.cabecalho('JOGO DA DECISAO')
 
+# Momento de escolha do sexo e nome do personagem
 sexo = str(input('Qual será o sexo do personagem? M(masculino) F(feminino):\n')).strip().lower()[0]
 s = sexo
 
@@ -19,11 +20,16 @@ if s == 'm':
 else:
     sexo = ['a', 'ela', 'uma']
 
+system('cls')
+
 prota_nome = str(input('Qual será o nome do seu Personagem?\n')).strip().capitalize()
 
-prota = test.Personagem()
+system('cls')
+
+prota = obj_personagem.Personagem()
 prota.nome = prota_nome
 
+# Começa o jogo
 print('Enredo:')
 print(f'O reino SALEM foi atacado, o rei JÉRU foi assassinado e você, \n{prota.nome}, filh{sexo[0]} do rei, busca vingança.')
 print(uteis.linha())
@@ -44,14 +50,15 @@ sleep(0.5)
 decisao1 = int(input('[1]Atacar\n'
                      '[2]conversar\n'))
 sleep(1)
+system('cls')
 print(uteis.linha())
 derrota = False
 
 if decisao1 == 1:
     sb.batalha_txt()
-    guerreira = test.Personagem()
+    guerreira = obj_personagem.Personagem()
     guerreira.nome = 'Ayllah'
-    print(f'                Vida:{prota.vida:<20}  Guerreira:{guerreira.vida}')
+    sb.tela_vida(prota, guerreira)
     uteis.linha3(tam=75)
 
     sb.batalha(prota, guerreira)
@@ -197,8 +204,9 @@ if reação == 1:
     uteis.seguir()
     print(f'Você não tem escolha, terá que lutar com o urso')
     sb.batalha_txt()
-    urso = test.Personagem()
-    print(f'                Vida:{prota.vida:<20}  Urso:{urso.vida}')
+    urso = obj_personagem.Personagem()
+    urso.nome = 'urso'
+    sb.tela_vida(prota, urso)
     uteis.linha3(tam=75)
 
     sb.batalha(prota, urso)
